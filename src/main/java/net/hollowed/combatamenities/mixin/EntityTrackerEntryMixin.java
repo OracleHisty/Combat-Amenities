@@ -3,6 +3,7 @@ package net.hollowed.combatamenities.mixin;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.hollowed.combatamenities.CombatAmenities;
 import net.hollowed.combatamenities.networking.BackSlotClientPacketPayload;
+import net.hollowed.combatamenities.util.AbstractSlotIdentifier;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.*;
@@ -63,9 +64,9 @@ public class EntityTrackerEntryMixin {
             Vec3d previousPosition = previousPositions.getOrDefault(playerId, currentPosition);
             Vec3d velocity = currentPosition.subtract(previousPosition);
 
-            Item backStack = player.getInventory().getStack(41).getItem();
+            Item backStack = player.getInventory().getStack(AbstractSlotIdentifier.INSTANCE.getBackID()).getItem();
 
-            if (!(backStack instanceof BlockItem) && player.getInventory().getStack(41) != ItemStack.EMPTY) {
+            if (!(backStack instanceof BlockItem) && player.getInventory().getStack(AbstractSlotIdentifier.INSTANCE.getBackID()) != ItemStack.EMPTY) {
 
                 // Landing detection
                 boolean isLanding = detectLanding(player);
@@ -89,13 +90,13 @@ public class EntityTrackerEntryMixin {
 
     @Unique
     private void sendBackSlotUpdate(ServerPlayerEntity recipient, ServerPlayerEntity sourcePlayer) {
-        ItemStack backSlotItem = sourcePlayer.getInventory().getStack(41);
+        ItemStack backSlotItem = sourcePlayer.getInventory().getStack(AbstractSlotIdentifier.INSTANCE.getBackID());
 
         // Send the back slot item (or an empty item stack if it's empty)
         ServerPlayNetworking.send(recipient,
-                new BackSlotClientPacketPayload(sourcePlayer.getId(), 41, backSlotItem.isEmpty() ? ItemStack.EMPTY : backSlotItem));
+                new BackSlotClientPacketPayload(sourcePlayer.getId(), AbstractSlotIdentifier.INSTANCE.getBackID(), backSlotItem.isEmpty() ? ItemStack.EMPTY : backSlotItem));
         ServerPlayNetworking.send(recipient,
-                new BackSlotClientPacketPayload(sourcePlayer.getId(), 42, sourcePlayer.getInventory().getStack(42).isEmpty() ? ItemStack.EMPTY : sourcePlayer.getInventory().getStack(42)));
+                new BackSlotClientPacketPayload(sourcePlayer.getId(), AbstractSlotIdentifier.INSTANCE.getBeltID(), sourcePlayer.getInventory().getStack(AbstractSlotIdentifier.INSTANCE.getBeltID()).isEmpty() ? ItemStack.EMPTY : sourcePlayer.getInventory().getStack(AbstractSlotIdentifier.INSTANCE.getBeltID())));
     }
 
     // Detect landing based on velocity history

@@ -1,6 +1,7 @@
 package net.hollowed.combatamenities.mixin;
 
 import net.hollowed.combatamenities.CombatAmenities;
+import net.hollowed.combatamenities.util.AbstractSlotIdentifier;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -19,8 +20,8 @@ public class EntityMixin {
     @Inject(method = "playStepSound", at = @At("HEAD"))
     private void onPlayStepSound(BlockPos pos, BlockState state, CallbackInfo ci) {
         if ((Object) this instanceof PlayerEntity player) {
-            ItemStack backSlotItem = player.getInventory().getStack(41);
-            ItemStack beltSlotItem = player.getInventory().getStack(42);
+            ItemStack backSlotItem = player.getInventory().getStack(AbstractSlotIdentifier.INSTANCE.getBackID());
+            ItemStack beltSlotItem = player.getInventory().getStack(AbstractSlotIdentifier.INSTANCE.getBeltID());
 
             // Check if back slot item exists and is valid
             if ((!backSlotItem.isEmpty() && !(backSlotItem.getItem() instanceof BlockItem)) || (!beltSlotItem.isEmpty() && !(beltSlotItem.getItem() instanceof BlockItem))) {

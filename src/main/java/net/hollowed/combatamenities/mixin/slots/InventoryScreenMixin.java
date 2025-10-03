@@ -1,5 +1,6 @@
 package net.hollowed.combatamenities.mixin.slots;
 
+import net.hollowed.combatamenities.CombatAmenities;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.ingame.AbstractInventoryScreen;
 import net.minecraft.client.gui.screen.ingame.InventoryScreen;
@@ -29,12 +30,12 @@ public abstract class InventoryScreenMixin extends AbstractInventoryScreen<Playe
     public void render(DrawContext context, float delta, int mouseX, int mouseY, CallbackInfo ci) {
         context.drawTexture(
                 SLOT_TEXTURE,
-                this.x + 76, this.y + 7,
+                this.x + CombatAmenities.CONFIG.backslotinventoryX, this.y + CombatAmenities.CONFIG.backslotinventoryY,
                 0, 0, 18, 18, 18, 18 // Texture coordinates and dimensions
         );
         context.drawTexture(
                 SLOT_TEXTURE,
-                this.x + 76, this.y + 25,
+                this.x + CombatAmenities.CONFIG.beltslotinventoryX, this.y + CombatAmenities.CONFIG.beltslotinventoryY,
                 0, 0, 18, 18, 18, 18 // Texture coordinates and dimensions
         );
     }

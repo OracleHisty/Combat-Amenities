@@ -2,6 +2,7 @@ package net.hollowed.combatamenities.networking;
 
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.hollowed.combatamenities.CombatAmenities;
+import net.hollowed.combatamenities.util.AbstractSlotIdentifier;
 import net.hollowed.combatamenities.util.ItemSlotSoundHandler;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
@@ -20,7 +21,7 @@ public class BeltSlotServerPacket {
 
             ItemStack offhandStack = player.getOffHandStack();
             ItemStack handStack = player.getMainHandStack();
-            ItemStack backStack = player.getInventory().getStack(42);
+            ItemStack backStack = player.getInventory().getStack(AbstractSlotIdentifier.INSTANCE.getBeltID());
 
             if (backStack.getItem() instanceof ItemSlotSoundHandler item) {
                 player.getWorld().playSound(null, player.getBlockPos(), item.combat_Amenities$getUnsheatheSound(), SoundCategory.PLAYERS, (CombatAmenities.CONFIG.backslotSwapSoundVolume / 100F), 0.9F);
@@ -30,14 +31,14 @@ public class BeltSlotServerPacket {
 
             if (!handStack.isEmpty()) {
                 player.setStackInHand(Hand.MAIN_HAND, backStack.copy());
-                player.getInventory().setStack(42, handStack.copy());
+                player.getInventory().setStack(AbstractSlotIdentifier.INSTANCE.getBeltID(), handStack.copy());
             } else {
                 if (backStack.isEmpty()) {
                     player.setStackInHand(Hand.OFF_HAND, backStack.copy());
-                    player.getInventory().setStack(42, offhandStack.copy());
+                    player.getInventory().setStack(AbstractSlotIdentifier.INSTANCE.getBeltID(), offhandStack.copy());
                 } else {
                     player.setStackInHand(Hand.MAIN_HAND, backStack.copy());
-                    player.getInventory().setStack(42, handStack.copy());
+                    player.getInventory().setStack(AbstractSlotIdentifier.INSTANCE.getBeltID(), handStack.copy());
                 }
             }
 

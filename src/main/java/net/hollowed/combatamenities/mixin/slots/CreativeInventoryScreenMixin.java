@@ -4,6 +4,7 @@ import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.hollowed.combatamenities.networking.BackSlotCreativeClientPacketPayload;
+import net.hollowed.combatamenities.util.AbstractSlotIdentifier;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.ingame.CreativeInventoryScreen;
@@ -87,11 +88,11 @@ public abstract class CreativeInventoryScreenMixin extends HandledScreen<Creativ
             for (int i = 0; i < this.handler.slots.size(); ++i) {
                 if (i == 46) {  // Modify slot 46
                     assert MinecraftClient.getInstance().player != null;
-                    ClientPlayNetworking.send(new BackSlotCreativeClientPacketPayload(MinecraftClient.getInstance().player.getId(), 41, this.handler.slots.get(i).getStack()));
+                    ClientPlayNetworking.send(new BackSlotCreativeClientPacketPayload(MinecraftClient.getInstance().player.getId(), AbstractSlotIdentifier.INSTANCE.getBackID(), this.handler.slots.get(i).getStack()));
                 }
                 if (i == 47) {  // Modify slot 47
                     assert MinecraftClient.getInstance().player != null;
-                    ClientPlayNetworking.send(new BackSlotCreativeClientPacketPayload(MinecraftClient.getInstance().player.getId(), 42, this.handler.slots.get(i).getStack()));
+                    ClientPlayNetworking.send(new BackSlotCreativeClientPacketPayload(MinecraftClient.getInstance().player.getId(), AbstractSlotIdentifier.INSTANCE.getBeltID(), this.handler.slots.get(i).getStack()));
                 }
             }
         }

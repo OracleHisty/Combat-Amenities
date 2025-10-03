@@ -1,6 +1,7 @@
 package net.hollowed.combatamenities.networking;
 
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
+import net.hollowed.combatamenities.util.AbstractSlotIdentifier;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.sound.SoundCategory;
@@ -15,10 +16,10 @@ public class BeltSlotInventoryPacketReceiver {
                 return;
             }
 
-            ItemStack backSlotStack = player.getInventory().getStack(42); // Backslot is slot 41
+            ItemStack backSlotStack = player.getInventory().getStack(AbstractSlotIdentifier.INSTANCE.getBeltID()); // Backslot is slot AbstractSlotIdentifier.INSTANCE.getBackID()
 
             // Locate the hovered slot in the player's inventory screen
-            int hoveredSlotIndex = payload.i();
+            int hoveredSlotIndex = payload.slot();
             if (hoveredSlotIndex < 0 || hoveredSlotIndex >= player.getInventory().size()) {
                 return; // Invalid slot index
             }
@@ -33,7 +34,7 @@ public class BeltSlotInventoryPacketReceiver {
             if (hoveredSlotIndex < 9) {
                 // Handling hotbar to backslot swap
                 if (!isCreative) {
-                    player.getInventory().setStack(42, hoveredStack); // Place item in backslot
+                    player.getInventory().setStack(AbstractSlotIdentifier.INSTANCE.getBeltID(), hoveredStack); // Place item in backslot
                     player.getInventory().setStack(hoveredSlotIndex, backSlotStack); // Move backslot item to hotbar
                     // If the hovered stack is not empty or the backslot stack is not empty, play a sound
                     if (!hoveredStack.isEmpty() || !backSlotStack.isEmpty()) {
@@ -43,7 +44,7 @@ public class BeltSlotInventoryPacketReceiver {
             } else {
                 // Handling general inventory slots to backslot
                 if (hoveredSlotIndex < 36) {
-                    player.getInventory().setStack(42, hoveredStack); // Move item to backslot
+                    player.getInventory().setStack(AbstractSlotIdentifier.INSTANCE.getBeltID(), hoveredStack); // Move item to backslot
                     player.getInventory().setStack(hoveredSlotIndex, backSlotStack); // Move backslot item to general inventory
                     // If the hovered stack is not empty or the backslot stack is not empty, play a sound
                     if (!hoveredStack.isEmpty() || !backSlotStack.isEmpty()) {

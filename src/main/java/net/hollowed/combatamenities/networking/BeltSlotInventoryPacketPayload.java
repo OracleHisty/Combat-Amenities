@@ -7,7 +7,7 @@ import net.minecraft.network.codec.PacketCodec;
 import net.minecraft.network.packet.CustomPayload;
 import net.minecraft.util.Identifier;
 
-public record BeltSlotInventoryPacketPayload(ItemStack itemStack, int i) implements CustomPayload {
+public record BeltSlotInventoryPacketPayload(ItemStack itemStack, int slot) implements CustomPayload {
 
     public static final Id<BeltSlotInventoryPacketPayload> BELTSLOT_INVENTORY_PACKET_ID = new Id<>(Identifier.of(CombatAmenities.MOD_ID, "beltslot_inventory_packet"));
 
@@ -22,7 +22,7 @@ public record BeltSlotInventoryPacketPayload(ItemStack itemStack, int i) impleme
         if (!itemStack.isEmpty()) {
             ItemStack.PACKET_CODEC.encode(buf, itemStack);
         }
-        buf.writeInt(i);
+        buf.writeInt(slot);
     }
 
     @Override

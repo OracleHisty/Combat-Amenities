@@ -3,6 +3,7 @@ package net.hollowed.combatamenities.renderer;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.hollowed.combatamenities.CombatAmenities;
+import net.hollowed.combatamenities.util.AbstractSlotIdentifier;
 import net.hollowed.combatamenities.util.TransformData;
 import net.hollowed.combatamenities.util.TransformResourceReloadListener;
 import net.minecraft.block.BannerBlock;
@@ -49,7 +50,7 @@ public class BackSlotFeatureRenderer extends HeldItemFeatureRenderer<AbstractCli
 
 		if (playerEntity != null) {
 			// Retrieve the back slot stack from the correct player's inventory
-			ItemStack backSlotStack = playerEntity.getInventory().getStack(41);
+			ItemStack backSlotStack = playerEntity.getInventory().getStack(AbstractSlotIdentifier.INSTANCE.getBackID());
 
 			if (backSlotStack.hasEnchantments() && Math.random() > ((100 - CombatAmenities.CONFIG.enchantmentParticleChance) / 100.0F) && CombatAmenities.CONFIG.backslotParticles && !MinecraftClient.getInstance().isPaused()) {
 				for (int i = 0; i < 5; i++) { // Increase the number for more particles

@@ -12,6 +12,17 @@ public class ModConfig implements ConfigData {
     @ConfigEntry.Gui.RequiresRestart
     public int backslotY = 0;
 
+
+    @ConfigEntry.Gui.RequiresRestart
+    public int backslotinventoryX = 76;
+    @ConfigEntry.Gui.RequiresRestart
+    public int backslotinventoryY = 7;
+
+    @ConfigEntry.Gui.RequiresRestart
+    public int beltslotinventoryX = 76;
+    @ConfigEntry.Gui.RequiresRestart
+    public int beltslotinventoryY = 25;
+
     public boolean backslotParticles = true;
     public int enchantmentParticleChance = 3;
     public int backslotAmbientSoundVolume = 100;

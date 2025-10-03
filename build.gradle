@@ -51,6 +51,7 @@ dependencies {
 
 	// Mod Menu
 	modApi "com.terraformersmc:modmenu:11.0.3"
+    modImplementation "dev.emi:trinkets:3.10.0"
 }
 
 processResources {

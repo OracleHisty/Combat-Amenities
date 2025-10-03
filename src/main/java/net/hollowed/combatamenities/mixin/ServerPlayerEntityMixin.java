@@ -4,6 +4,7 @@ import com.mojang.authlib.GameProfile;
 import net.fabricmc.fabric.api.networking.v1.PlayerLookup;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.hollowed.combatamenities.networking.BackSlotClientPacketPayload;
+import net.hollowed.combatamenities.util.AbstractSlotIdentifier;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.server.network.ServerPlayerEntity;
@@ -34,8 +35,8 @@ public abstract class ServerPlayerEntityMixin extends PlayerEntity {
     @Inject(method = "tick", at = @At("TAIL"))
     private void tickMixin(CallbackInfo info) {
         if (!this.getWorld().isClient()) {
-            ItemStack currentBackSlotStack = this.getInventory().getStack(41);
-            ItemStack currentBeltSlotStack = this.getInventory().getStack(42);
+            ItemStack currentBackSlotStack = this.getInventory().getStack(AbstractSlotIdentifier.INSTANCE.getBackID());
+            ItemStack currentBeltSlotStack = this.getInventory().getStack(AbstractSlotIdentifier.INSTANCE.getBeltID());
 
             // Check if the current back slot stack is different from the saved one
             if (!ItemStack.areItemsEqual(backSlotStack, currentBackSlotStack)) {
@@ -43,7 +44,7 @@ public abstract class ServerPlayerEntityMixin extends PlayerEntity {
                 backSlotStack = currentBackSlotStack.copy();
 
                 // Create a new payload with the current back slot stack
-                BackSlotClientPacketPayload payload = new BackSlotClientPacketPayload(this.getId(), 41, backSlotStack);
+                BackSlotClientPacketPayload payload = new BackSlotClientPacketPayload(this.getId(), AbstractSlotIdentifier.INSTANCE.getBackID(), backSlotStack);
                 Collection<ServerPlayerEntity> players = PlayerLookup.tracking((ServerWorld) this.getWorld(), this.getBlockPos());
                 players.forEach(player -> ServerPlayNetworking.send(player, payload));
             }
@@ -54,7 +55,7 @@ public abstract class ServerPlayerEntityMixin extends PlayerEntity {
                 beltSlotStack = currentBeltSlotStack.copy();
 
                 // Create a new payload with the current back slot stack
-                BackSlotClientPacketPayload payload = new BackSlotClientPacketPayload(this.getId(), 42, beltSlotStack);
+                BackSlotClientPacketPayload payload = new BackSlotClientPacketPayload(this.getId(), AbstractSlotIdentifier.INSTANCE.getBeltID(), beltSlotStack);
                 Collection<ServerPlayerEntity> players = PlayerLookup.tracking((ServerWorld) this.getWorld(), this.getBlockPos());
                 players.forEach(player -> ServerPlayNetworking.send(player, payload));
             }

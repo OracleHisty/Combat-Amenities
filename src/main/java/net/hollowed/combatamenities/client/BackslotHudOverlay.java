@@ -5,6 +5,7 @@ import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.client.rendering.v1.HudRenderCallback;
 import net.hollowed.combatamenities.CombatAmenities;
+import net.hollowed.combatamenities.util.AbstractSlotIdentifier;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.render.RenderLayer;
@@ -12,6 +13,8 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.Arm;
 import net.minecraft.util.Identifier;
+import org.apache.http.conn.socket.PlainConnectionSocketFactory;
+
 
 @Environment(EnvType.CLIENT)
 public class BackslotHudOverlay {
@@ -40,7 +43,7 @@ public class BackslotHudOverlay {
         PlayerEntity playerEntity = MinecraftClient.getInstance().player;
         if (playerEntity != null) {
             // Get the belt slot item
-            ItemStack backSlotStack = playerEntity.getInventory().getStack(42);
+            ItemStack backSlotStack = playerEntity.getInventory().getStack(net.hollowed.combatamenities.util.AbstractSlotIdentifier.INSTANCE.getBeltID());
 
             // Check if the belt slot item has changed
             if (!ItemStack.areEqual(backSlotStack, lastBeltSlotStack)) {
@@ -80,7 +83,7 @@ public class BackslotHudOverlay {
         PlayerEntity playerEntity = MinecraftClient.getInstance().player;
         if (playerEntity != null) {
             // Get the backslot item
-            ItemStack backSlotStack = playerEntity.getInventory().getStack(41);
+            ItemStack backSlotStack = playerEntity.getInventory().getStack(AbstractSlotIdentifier.INSTANCE.getBackID());
 
             // Check if the back slot item has changed
             if (!ItemStack.areEqual(backSlotStack, lastBackSlotStack)) {

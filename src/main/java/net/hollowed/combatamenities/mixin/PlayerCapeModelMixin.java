@@ -1,5 +1,6 @@
 package net.hollowed.combatamenities.mixin;
 
+import net.hollowed.combatamenities.util.AbstractSlotIdentifier;
 import net.hollowed.combatamenities.util.TransformData;
 import net.hollowed.combatamenities.util.TransformResourceReloadListener;
 import net.minecraft.block.BannerBlock;
@@ -38,7 +39,7 @@ public abstract class PlayerCapeModelMixin extends FeatureRenderer<AbstractClien
     @Inject(method = "render(Lnet/minecraft/client/util/math/MatrixStack;Lnet/minecraft/client/render/VertexConsumerProvider;ILnet/minecraft/client/network/AbstractClientPlayerEntity;FFFFFF)V", at = @At("HEAD"), cancellable = true)
     private void injectSetAngles(MatrixStack matrixStack, VertexConsumerProvider vertexConsumerProvider, int i, AbstractClientPlayerEntity abstractClientPlayerEntity, float f, float g, float h, float j, float k, float l, CallbackInfo ci) {
         if (!abstractClientPlayerEntity.isInvisible() && abstractClientPlayerEntity.isPartVisible(PlayerModelPart.CAPE)) {
-            ItemStack stack = abstractClientPlayerEntity.getInventory().getStack(41);
+            ItemStack stack = abstractClientPlayerEntity.getInventory().getStack(AbstractSlotIdentifier.INSTANCE.getBackID());
             TransformData data = TransformResourceReloadListener.getTransform(Registries.ITEM.getId(stack.getItem()));
 
             float bannerMultiplier = 0.4F;
@@ -53,7 +54,7 @@ public abstract class PlayerCapeModelMixin extends FeatureRenderer<AbstractClien
 
             SkinTextures skinTextures = abstractClientPlayerEntity.getSkinTextures();
             if (skinTextures.capeTexture() != null) {
-                ItemStack itemStack = abstractClientPlayerEntity.getEquippedStack(EquipmentSlot.CHEST);
+                ItemStack itemStack = abstractClientPlayerEntity.getEquippedStack(EquipmentSlot.CHEST); //Todo: Add compat to check the Elytra/Back Accessory slots from Trinkets/Curios/Accessories
                 if (!itemStack.isOf(Items.ELYTRA)) {
                     matrixStack.push();
                     matrixStack.translate(0.0F, 0.0F, 0.125F);
